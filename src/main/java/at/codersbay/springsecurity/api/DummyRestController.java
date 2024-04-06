@@ -30,14 +30,12 @@ public class DummyRestController {
     }
 
     @GetMapping("/user/hello")
-    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public String userHello() {
-        return "Hello, Admin!";
+        return "Hello, User!";
     }
 
 
     @GetMapping("/admin/hello")
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public String adminHello() {
         return "Hello, Admin!";
     }
@@ -56,16 +54,15 @@ public class DummyRestController {
         if (authentication.isAuthenticated()) {
             String token = jwtService.generateToken(authRequest.getUsername(), authentication.getAuthorities());
             Object principal = authentication.getPrincipal();
-            System.out.println("WE ARE INSIDE THE FUNCTION");
+
             AuthResponseBody authResponse = new AuthResponseBody();
             authResponse.setToken(token);
-            if (principal instanceof User) {
-                System.out.println("INSIDE USER");
-                UserDetails userDetails = (UserDetails) principal;
-                authResponse.setUserDetails(userDetails);
-                System.out.println("DIDNT GO INSIDE ANY OF THEM");
-                return authResponse;
-            }
+
+            UserDetails userDetails = (UserDetails) principal;
+            authResponse.setUsername(userDetails.getUsername());
+            authResponse.setAuthorities(userDetails.getAuthorities());
+            return authResponse;
+
         }
 
         throw new UsernameNotFoundException("Invalid user request!");

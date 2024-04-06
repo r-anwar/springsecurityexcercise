@@ -50,21 +50,27 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.csrf().disable()
-                .authorizeHttpRequests()
-                .requestMatchers(
+        http.csrf().disable()
+                .authorizeHttpRequests().requestMatchers(
                         new RegexRequestMatcher("/api/authenticate", HttpMethod.POST.toString()),
                         new RegexRequestMatcher("/api/hello", HttpMethod.GET.toString())
                 ).permitAll()
                 .and()
                 .authorizeHttpRequests().requestMatchers(
-                        new AntPathRequestMatcher("/api/user/**", HttpMethod.GET.toString()),
+                        new AntPathRequestMatcher("/api/user/**", HttpMethod.GET.toString())
+                ).hasAuthority("USER")
+                .and()
+                .authorizeHttpRequests().requestMatchers(
                         new AntPathRequestMatcher("/api/admin/**", HttpMethod.GET.toString())
-                )
-                .authenticated()
+                ).hasAuthority("ADMIN")
                 .and()
                 .authenticationProvider(authenticationProvider())
-                .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();
+                .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);
+
+        http.sessionManagement((session) -> session
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        );
+
+        return http.build();
     }
 }
