@@ -1,5 +1,6 @@
 package at.codersbay.springsecurity.security;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,7 +25,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private UserDetailsServiceImpl userDetailsService;
 
 
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
@@ -35,15 +35,17 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String userName = null;
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             token = authHeader.substring(7);
-            userName = jwtService.extractUsername(token);
+
+            try {
+                userName = jwtService.extractUsername(token);
+            } catch (ExpiredJwtException expiredJwtException) {
+                System.out.println("token is expired!");
+            }
         }
 
         if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-
             UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
-
-            System.out.println("validate: " + jwtService.validateToken(token, userDetails));
 
             if (jwtService.validateToken(token, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken =

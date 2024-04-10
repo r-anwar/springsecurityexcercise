@@ -1,6 +1,7 @@
 package at.codersbay.springsecurity.security;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -45,8 +46,12 @@ public class JwtService {
     }
 
 
-    private Boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
+    public Boolean isTokenExpired(String token) {
+        try {
+            return extractExpiration(token).before(new Date());
+        } catch(ExpiredJwtException expiredJwtException) {
+            return true;
+        }
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {

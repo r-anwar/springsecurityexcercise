@@ -57,11 +57,11 @@ public class WebSecurityConfig {
                 ).permitAll()
                 .and()
                 .authorizeHttpRequests().requestMatchers(
-                        new AntPathRequestMatcher("/api/user/**", HttpMethod.GET.toString())
-                ).hasAuthority("USER")
+                        new AntPathRequestMatcher("/api/user/**")
+                ).hasAnyAuthority("USER", "ADMIN")
                 .and()
                 .authorizeHttpRequests().requestMatchers(
-                        new AntPathRequestMatcher("/api/admin/**", HttpMethod.GET.toString())
+                        new AntPathRequestMatcher("/api/admin/**")
                 ).hasAuthority("ADMIN")
                 .and()
                 .authenticationProvider(authenticationProvider())
