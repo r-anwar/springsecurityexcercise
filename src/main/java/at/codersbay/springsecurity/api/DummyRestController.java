@@ -44,10 +44,6 @@ public class DummyRestController {
     public AuthResponseBody authenticateAndGetToken(
             @RequestBody AuthRequestBody authRequest) {
 
-        System.out.println(authRequest);
-        System.out.println(authRequest.getUsername());
-        System.out.println(authRequest.getPassword());
-
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 authRequest.getUsername(), authRequest.getPassword()));
 
