@@ -40,6 +40,11 @@ public class DummyRestController {
         return "Hello, Admin!";
     }
 
+    /**
+     *
+     * @param authRequest
+     * @return
+     */
     @PostMapping("/authenticate")
     public AuthResponseBody authenticateAndGetToken(
             @RequestBody AuthRequestBody authRequest) {
