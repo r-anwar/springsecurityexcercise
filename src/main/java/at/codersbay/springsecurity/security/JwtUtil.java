@@ -17,7 +17,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Component
-public class JwtService {
+public class JwtUtil {
 
 
     public static final String SECRET = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437";
@@ -73,19 +73,20 @@ public class JwtService {
 
     public String generateToken(String userName, Collection<? extends GrantedAuthority> authorities) {
         Map<String, Object> claims = new HashMap<>();
+
         claims.put("authorities", authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
+
         return createToken(claims, userName);
     }
-
 
     private String createToken(Map<String, Object> claims, String userName) {
 
         Calendar calendar = Calendar.getInstance();
         Date now = calendar.getTime();
 
-
         calendar.add(Calendar.HOUR, 4);
         Date expirationDate = calendar.getTime();
+
 
         return Jwts.builder()
                 .setClaims(claims)

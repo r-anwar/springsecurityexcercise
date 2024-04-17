@@ -19,7 +19,7 @@ import java.io.IOException;
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     @Autowired
-    private JwtService jwtService;
+    private JwtUtil jwtService;
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
@@ -29,10 +29,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
+        //Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6WyJBRE1JTiJdLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxMzM3MTkwNSwiZXhwIjoxNzEzMzg2MzA1fQ.G-T9opSWDhVV7-iC38gw2Zgx-kTy47upSxX3u8xR2lU
         String authHeader = request.getHeader("Authorization");
 
         String token = null;
         String userName = null;
+
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             token = authHeader.substring(7);
 

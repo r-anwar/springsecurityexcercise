@@ -1,11 +1,9 @@
 package at.codersbay.springsecurity.api;
 
-import at.codersbay.springsecurity.data.User;
 import at.codersbay.springsecurity.security.AuthRequestBody;
 import at.codersbay.springsecurity.security.AuthResponseBody;
-import at.codersbay.springsecurity.security.JwtService;
+import at.codersbay.springsecurity.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,7 +19,7 @@ public class DummyRestController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private JwtService jwtService;
+    private JwtUtil jwtService;
 
 
     @GetMapping("/hello")
