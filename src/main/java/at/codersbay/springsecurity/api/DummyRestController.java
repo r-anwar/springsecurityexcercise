@@ -32,10 +32,14 @@ public class DummyRestController {
         return "Hello, User!";
     }
 
-
     @GetMapping("/admin/hello")
     public String adminHello() {
         return "Hello, Admin!";
+    }
+
+    @GetMapping("/moderator/hello")
+    public String moderatorHello() {
+        return "Hello, Moderator!";
     }
 
     /**

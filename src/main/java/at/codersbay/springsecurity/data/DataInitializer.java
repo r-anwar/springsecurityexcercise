@@ -37,6 +37,11 @@ public class DataInitializer {
 
         this.roleRepository.save(adminRole);
 
+        Role moderatorRole = new Role();
+        moderatorRole.setName("MODERATOR");
+
+        this.roleRepository.save(moderatorRole);
+
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
         User userMax = new User();
@@ -55,7 +60,14 @@ public class DataInitializer {
         adminUser.setRoles(new HashSet<>());
         adminUser.getRoles().add(adminRole);
 
-        this.userRepository.save(adminUser);
+        User moderatorUser = new User();
+        moderatorUser.setEnabled(true);
+        moderatorUser.setUsername("moderator");
+        moderatorUser.setPassword(encoder.encode("yxcvbnm"));
+        moderatorUser.setRoles(new HashSet<>());
+        moderatorUser.getRoles().add(moderatorRole);
+
+        this.userRepository.save(moderatorUser);
 
     }
 }

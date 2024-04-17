@@ -63,6 +63,10 @@ public class WebSecurityConfig {
                 ).hasAnyAuthority("USER", "ADMIN")
                 .and()
                 .authorizeHttpRequests().requestMatchers(
+                        new AntPathRequestMatcher("/api/moderator/**")
+                ).hasAnyAuthority("MODERATOR", "ADMIN")
+                .and()
+                .authorizeHttpRequests().requestMatchers(
                         new AntPathRequestMatcher("/api/admin/**")
                 ).hasAuthority("ADMIN")
                 .and()
