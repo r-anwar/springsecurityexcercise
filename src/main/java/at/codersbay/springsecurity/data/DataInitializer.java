@@ -58,6 +58,8 @@ public class DataInitializer {
         adminUser.setPassword(encoder.encode("yxcvbnm"));
         adminUser.getRoles().add(adminRole);
 
+        this.userRepository.save(adminUser);
+
         User moderatorUser = new User();
         moderatorUser.setEnabled(true);
         moderatorUser.setUsername("moderator");
