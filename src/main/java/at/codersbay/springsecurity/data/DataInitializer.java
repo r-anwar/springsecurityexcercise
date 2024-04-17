@@ -48,7 +48,6 @@ public class DataInitializer {
         userMax.setEnabled(true);
         userMax.setUsername("max");
         userMax.setPassword(encoder.encode("yxcvbnm"));
-        userMax.setRoles(new HashSet<>());
         userMax.getRoles().add(userRole);
 
         this.userRepository.save(userMax);
@@ -57,14 +56,12 @@ public class DataInitializer {
         adminUser.setEnabled(true);
         adminUser.setUsername("admin");
         adminUser.setPassword(encoder.encode("yxcvbnm"));
-        adminUser.setRoles(new HashSet<>());
         adminUser.getRoles().add(adminRole);
 
         User moderatorUser = new User();
         moderatorUser.setEnabled(true);
         moderatorUser.setUsername("moderator");
         moderatorUser.setPassword(encoder.encode("yxcvbnm"));
-        moderatorUser.setRoles(new HashSet<>());
         moderatorUser.getRoles().add(moderatorRole);
 
         this.userRepository.save(moderatorUser);
